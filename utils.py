@@ -11,4 +11,4 @@ def getJsonFromFile(showName):
     try:
         return template("{folder}/{filename}.json".format(folder=JSON_FOLDER, filename=showName))
     except:
-        return "{}"
+        return {}

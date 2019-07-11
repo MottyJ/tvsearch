@@ -33,6 +33,7 @@ def img(filepath):
 @route("/")
 def index():
     thisSectionTemplate = "./templates/home.tpl"
+    print(utils.getJsonFromFile("7"))
     return template(
         "./pages/index.html",
         version=utils.getVersion(),
@@ -40,9 +41,11 @@ def index():
         sectionData={},
     )
 
+
 @error(404)
 def return_error(error):
     return template("./templates/404")
+
 
 run(host="127.0.0.1", port=os.environ.get("PORT", 5000), reloader=True)
 
