@@ -11,6 +11,7 @@ from bottle import (
     error,
 )
 import utils
+import json
 
 # Static Routes
 
@@ -33,12 +34,22 @@ def img(filepath):
 @route("/")
 def index():
     thisSectionTemplate = "./templates/home.tpl"
-    print(utils.getJsonFromFile("7"))
     return template(
         "./pages/index.html",
         version=utils.getVersion(),
         sectionTemplate=thisSectionTemplate,
         sectionData={},
+    )
+
+
+@route("/browse")
+def browse():
+    thisSectionTemplate = "./templates/browse.tpl"
+    return template(
+        "./pages/index.html",
+        version=utils.getVersion(),
+        sectionTemplate=thisSectionTemplate,
+        sectionData=utils.getShows(utils.AVAILABE_SHOWS),
     )
 
 
