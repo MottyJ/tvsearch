@@ -1,5 +1,15 @@
 import os
-from bottle import get, post, redirect, request, route, run, static_file, template
+from bottle import (
+    get,
+    post,
+    redirect,
+    request,
+    route,
+    run,
+    static_file,
+    template,
+    error,
+)
 import utils
 
 # Static Routes
@@ -30,6 +40,13 @@ def index():
         sectionData={},
     )
 
+
+run(host="127.0.0.1", port=os.environ.get("PORT", 5000))
+
+
+@error(404)
+def return_error(error):
+    return template("./templates/404")
 
 run(host="127.0.0.1", port=os.environ.get("PORT", 5000))
 
