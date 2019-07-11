@@ -1,5 +1,5 @@
 import os
-from bottle import (get, post, redirect, request, route, run, static_file,
+from bottle import (error, get, post, redirect, request, route, run, static_file,
                     template)
 import utils
 
@@ -21,5 +21,9 @@ def img(filepath):
 def index():
     sectionTemplate = "./templates/home.tpl"
     return template("./pages/index.html", version=utils.getVersion(), sectionTemplate=sectionTemplate, sectionData = {})
+
+@error(404)
+def return_error(error):
+    return template("./templates/404")
 
 run(host='127.0.0.1', port=os.environ.get('PORT', 5000))
