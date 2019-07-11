@@ -40,13 +40,9 @@ def index():
         sectionData={},
     )
 
-
-run(host="127.0.0.1", port=os.environ.get("PORT", 5000))
-
-
 @error(404)
 def return_error(error):
     return template("./templates/404")
 
-run(host="127.0.0.1", port=os.environ.get("PORT", 5000))
+run(host="127.0.0.1", port=os.environ.get("PORT", 5000), reloader=True)
 
