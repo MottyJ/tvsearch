@@ -9,6 +9,7 @@ from bottle import (
     static_file,
     template,
     error,
+    response
 )
 import utils
 import json
@@ -50,6 +51,28 @@ def browse():
         version=utils.getVersion(),
         sectionTemplate=thisSectionTemplate,
         sectionData=utils.getShows(utils.AVAILABE_SHOWS),
+    )
+
+# @route("/show/<showID>")
+# def show(showID):
+#     thisSectionTemplate = "./templates/show.tpl"
+#     result = json.loads(utils.getJsonFromFile(showID))
+#     return template(
+#         "./pages/index.html",
+#         version=utils.getVersion(),
+#         sectionTemplate=thisSectionTemplate,
+#         sectionData=result,
+#     )
+
+@route("/ajax/show/<showID>")
+def ajax_route(showID):
+    thisSectionTemplate = "./templates/show.tpl"
+    result = json.loads(utils.getJsonFromFile(showID))
+    return template(
+        "./pages/index.html",
+        version=utils.getVersion(),
+        sectionTemplate=thisSectionTemplate,
+        sectionData=result,
     )
 
 

@@ -12,6 +12,7 @@ window.onpopstate = function(event) {
     }
     // Code to handle back button or prevent from navigation
     if (event.state.stateType){
+      console.log(event.state.stateType)
       switch (event.state.stateType){
         case "show":
           Browse.loadShow(event.state.showId, false);
