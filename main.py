@@ -36,6 +36,7 @@ def img(filepath):
 
 @route("/")
 def index():
+    print("in index")
     thisSectionTemplate = "./templates/home.tpl"
     return template(
         "./pages/index.html",
@@ -47,6 +48,7 @@ def index():
 
 @route("/browse")
 def browse():
+    print("in browse")
     thisSectionTemplate = "./templates/browse.tpl"
     return template(
         "./pages/index.html",
@@ -56,7 +58,8 @@ def browse():
     )
 
 @route("/search")
-def browse():
+def get_search():
+    print("in get_search")
     thisSectionTemplate = "./templates/search.tpl"
     return template(
         "./pages/index.html",
@@ -67,6 +70,7 @@ def browse():
 
 @post("/search")
 def post_search():
+    print("in post_search")
     search_value = request.forms.get("q")
     print("in post_search, " + search_value)
 
@@ -83,6 +87,7 @@ def post_search():
 
 @route("/ajax/show/<showID>")
 def ajax_route(showID):
+    print("in ajax_route")
     thisSectionTemplate = "./templates/show.tpl"
     result = json.loads(utils.getJsonFromFile(showID))
     return template(
@@ -95,6 +100,7 @@ def ajax_route(showID):
 
 @error(404)
 def return_error(error):
+    print("in return_error")
     thisSectionTemplate = "./templates/404.tpl"
     # result = json.loads(utils.getJsonFromFile(showID))
     return template(
