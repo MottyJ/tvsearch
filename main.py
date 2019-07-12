@@ -55,6 +55,16 @@ def browse():
         sectionData=utils.getShows(utils.AVAILABE_SHOWS),
     )
 
+@route("/search")
+def browse():
+    thisSectionTemplate = "./templates/search.tpl"
+    return template(
+        "./pages/index.html",
+        version=utils.getVersion(),
+        sectionTemplate=thisSectionTemplate,
+        sectionData=utils.getShows(utils.AVAILABE_SHOWS),
+    )
+
 # @route("/show/<showID>")
 # def show(showID):
 #     thisSectionTemplate = "./templates/show.tpl"
