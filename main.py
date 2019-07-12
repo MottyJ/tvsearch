@@ -32,6 +32,8 @@ def img(filepath):
     return static_file(filepath, root="./images")
 
 
+# Dynamic routes
+
 @route("/")
 def index():
     thisSectionTemplate = "./templates/home.tpl"
@@ -78,7 +80,14 @@ def ajax_route(showID):
 
 @error(404)
 def return_error(error):
-    return template("./templates/404")
+    thisSectionTemplate = "./templates/404.tpl"
+    # result = json.loads(utils.getJsonFromFile(showID))
+    return template(
+        "./pages/index.html",
+        version=utils.getVersion(),
+        sectionTemplate=thisSectionTemplate,
+        sectionData={},
+    )
 
 
 run(host="127.0.0.1", port=os.environ.get("PORT", 5000), reloader=True)
