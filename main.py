@@ -65,6 +65,11 @@ def browse():
         sectionData=utils.getShows(utils.AVAILABE_SHOWS),
     )
 
+@post("/search")
+def post_search():
+    search_value = request.forms.get("q")
+    print("in post_search, " + search_value)
+
 # @route("/show/<showID>")
 # def show(showID):
 #     thisSectionTemplate = "./templates/show.tpl"
