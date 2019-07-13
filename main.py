@@ -10,6 +10,7 @@ from bottle import (
     template,
     error,
     response,
+    abort
 )
 import utils
 import json
@@ -88,27 +89,19 @@ def post_search():
     )
 
 
-# @route("/show/<showID>")
-# def show(showID):
-#     print("in post_search")
-#     print("showID: " + showID)
-#     thisSectionTemplate = "./templates/show.tpl"
-#     result = json.loads(utils.getJsonFromFile(showID))
-#     return template(
-#         "./pages/index.html",
-#         version=utils.getVersion(),
-#         sectionTemplate=thisSectionTemplate,
-#         sectionData=result,
-#     )
-
-
+@route("/show/<showID>")
 @route("/ajax/show/<showID>")
-def ajax_route(showID):
-    print("in ajax_route")
+def show(showID):
+    print("in post_search")
     print("showID: " + showID)
     thisSectionTemplate = "./templates/show.tpl"
-    result = json.loads(utils.getJsonFromFile(showID))
-    print(result)
+    result = []
+    try:
+        result = json.loads(utils.getJsonFromFile(showID))
+    except TypeError as e:
+    # if len(result) == 0:
+        print('no search results - ' + str(e.args))
+        abort(404,'Show Not Found')
     return template(
         "./pages/index.html",
         version=utils.getVersion(),
@@ -117,6 +110,21 @@ def ajax_route(showID):
     )
 
 
+# @route("/ajax/show/<showID>")
+# def ajax_route(showID):
+#     print("in ajax_route")
+#     print("showID: " + showID)
+#     thisSectionTemplate = "./templates/show.tpl"
+#     result = json.loads(utils.getJsonFromFile(showID))
+#     print(result)
+#     return template(
+#         "./pages/index.html",
+#         version=utils.getVersion(),
+#         sectionTemplate=thisSectionTemplate,
+#         sectionData=result,
+#     )
+
+@route("/ajax/show/<showID>/episode/<episodeID>")
 @route("/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
     print("in episode")
@@ -129,17 +137,17 @@ def episode(showID, episodeID):
         sectionData=result,
     )
 
-@route("/ajax/show/<showID>/episode/<episodeID>")
-def episode(showID, episodeID):
-    print("in episode")
-    thisSectionTemplate = "./templates/episode.tpl"
-    result = utils.get_episode(showID, episodeID)
-    return template(
-        "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
-        sectionData=result,
-    )
+# @route("/ajax/show/<showID>/episode/<episodeID>")
+# def episode(showID, episodeID):
+#     print("in episode")
+#     thisSectionTemplate = "./templates/episode.tpl"
+#     result = utils.get_episode(showID, episodeID)
+#     return template(
+#         "./pages/index.html",
+#         version=utils.getVersion(),
+#         sectionTemplate=thisSectionTemplate,
+#         sectionData=result,
+#     )
 
 
 @error(404)

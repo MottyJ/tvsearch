@@ -32,6 +32,7 @@ def getJsonFromFile(showName):
 
 
 def getShows(AVAILABE_SHOWS):
+    print("in getShows")
     shows_redefined = []
     for show in AVAILABE_SHOWS:
         shows_redefined.append(json.loads(getJsonFromFile(show)))
