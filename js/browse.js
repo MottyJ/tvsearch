@@ -30,6 +30,7 @@ window.onpopstate = function(event) {
 Browse.loadContent = function(path, updateHistory = true, stateObj = {}){
   const dynamic = document.getElementById("dynamic");
   dynamic.innerHTML = "";
+  console.log('asdf')
   dynamic.classList.add("loading");
   fetch(`/ajax${path}`)
   .then(function (response) {

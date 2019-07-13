@@ -1,4 +1,5 @@
 import os
+
 from bottle import (
     get,
     post,
@@ -14,6 +15,7 @@ from bottle import (
 )
 import utils
 import json
+
 
 # Static Routes
 
@@ -90,9 +92,8 @@ def post_search():
 
 
 @route("/show/<showID>")
-@route("/ajax/show/<showID>")
 def show(showID):
-    print("in post_search")
+    print("in show")
     print("showID: " + showID)
     thisSectionTemplate = "./templates/show.tpl"
     result = []
@@ -100,9 +101,8 @@ def show(showID):
         result = json.loads(utils.getJsonFromFile(showID))
     except TypeError as e:
         print('no search results - ' + str(e.args))
-        abort(404,'Show Not Found')
+        abort(404, 'Show Not Found')
         return
-
     return template(
         "./pages/index.html",
         version=utils.getVersion(),
@@ -111,31 +111,25 @@ def show(showID):
     )
 
 
-# @route("/ajax/show/<showID>")
-# def ajax_route(showID):
-#     print("in ajax_route")
-#     print("showID: " + showID)
-#     thisSectionTemplate = "./templates/show.tpl"
-#     result = json.loads(utils.getJsonFromFile(showID))
-#     print(result)
-#     return template(
-#         "./pages/index.html",
-#         version=utils.getVersion(),
-#         sectionTemplate=thisSectionTemplate,
-#         sectionData=result,
-#     )
+@route("/ajax/show/<showID>")
+def ajax_route(showID):
+    print("in ajax_route")
+    print("showID: " + showID)
+    thisSectionTemplate = "./templates/show.tpl"
+    result = json.loads(utils.getJsonFromFile(showID))
+    return template(thisSectionTemplate, result=result)
 
-@route("/ajax/show/<showID>/episode/<episodeID>")
+
 @route("/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
-    print("in episode, showID {} episodeID {}".format(showID,episodeID))
+    print("in episode, showID {} episodeID {}".format(showID, episodeID))
     thisSectionTemplate = "./templates/episode.tpl"
     result = []
     try:
         result = utils.get_episode(showID, episodeID)
     except TypeError as e:
         print('no search results - ' + str(e.args))
-        abort(404,'Show / episode Not Found')
+        abort(404, 'Show / episode Not Found')
         return
     if 'episode not found' == str(result):
         abort(404, 'episode Not Found')
@@ -147,17 +141,13 @@ def episode(showID, episodeID):
         sectionData=result,
     )
 
-# @route("/ajax/show/<showID>/episode/<episodeID>")
-# def episode(showID, episodeID):
-#     print("in episode")
-#     thisSectionTemplate = "./templates/episode.tpl"
-#     result = utils.get_episode(showID, episodeID)
-#     return template(
-#         "./pages/index.html",
-#         version=utils.getVersion(),
-#         sectionTemplate=thisSectionTemplate,
-#         sectionData=result,
-#     )
+
+@route("/ajax/show/<showID>/episode/<episodeID>")
+def episode(showID, episodeID):
+    print("in episode")
+    thisSectionTemplate = "./templates/episode.tpl"
+    result = utils.get_episode(showID, episodeID)
+    return template(thisSectionTemplate, result=result)
 
 
 @error(404)
@@ -165,7 +155,6 @@ def episode(showID, episodeID):
 def return_error(error):
     print("in return_error, error: " + str(error))
     thisSectionTemplate = "./templates/404.tpl"
-    # result = json.loads(utils.getJsonFromFile(showID))
     return template(
         "./pages/index.html",
         version=utils.getVersion(),
@@ -175,4 +164,3 @@ def return_error(error):
 
 
 run(host="127.0.0.1", port=os.environ.get("PORT", 5000), reloader=True)
-

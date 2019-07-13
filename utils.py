@@ -38,6 +38,9 @@ def getShows(AVAILABE_SHOWS):
         shows_redefined.append(json.loads(getJsonFromFile(show)))
     return shows_redefined
 
+def get_show_episodes(show_id):
+    show = json.loads(getJsonFromFile(show_id))
+    return show["_embedded"]["episodes"]
 
 def get_episode(show_id, episode_id):
     print("in get_episode")
