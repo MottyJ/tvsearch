@@ -53,6 +53,8 @@ def search_episodes(search_value):
     results = []
     for show in shows:
         for episode in show["_embedded"]["episodes"]:
-            if search_value.lower() in episode['name'].lower():
+            if (search_value.lower() in episode['name'].lower()):
                 results.append({'showid':show['id'],'episodeid':episode['id'],'text':episode['name']})
+            elif episode['summary'] and (search_value.lower() in episode['summary'].lower()):
+                results.append({'showid': show['id'], 'episodeid': episode['id'], 'text': episode['name']})
     return results

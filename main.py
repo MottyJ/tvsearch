@@ -161,8 +161,9 @@ def episode(showID, episodeID):
 
 
 @error(404)
+@error(500)
 def return_error(error):
-    print("in return_error")
+    print("in return_error, error: " + str(error))
     thisSectionTemplate = "./templates/404.tpl"
     # result = json.loads(utils.getJsonFromFile(showID))
     return template(
