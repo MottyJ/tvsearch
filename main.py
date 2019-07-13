@@ -76,6 +76,16 @@ def post_search():
     print("in post_search")
     search_value = request.forms.get("q")
     print("in post_search, " + search_value)
+    results = utils.search_episodes(search_value)
+    thisSectionTemplate = "./templates/search_result.tpl"
+    return template(
+        "./pages/index.html",
+        version=utils.getVersion(),
+        sectionTemplate=thisSectionTemplate,
+        sectionData=search_value,
+        query=search_value,
+        results=results
+    )
 
 
 # @route("/show/<showID>")
@@ -107,17 +117,17 @@ def ajax_route(showID):
     )
 
 
-# @route("/show/<showID>/episode/<episodeID>")
-# def episode(showID, episodeID):
-#     print("in episode")
-#     thisSectionTemplate = "./templates/episode.tpl"
-#     result = utils.get_episode(showID, episodeID)
-#     return template(
-#         "./pages/index.html",
-#         version=utils.getVersion(),
-#         sectionTemplate=thisSectionTemplate,
-#         sectionData=result,
-#     )
+@route("/show/<showID>/episode/<episodeID>")
+def episode(showID, episodeID):
+    print("in episode")
+    thisSectionTemplate = "./templates/episode.tpl"
+    result = utils.get_episode(showID, episodeID)
+    return template(
+        "./pages/index.html",
+        version=utils.getVersion(),
+        sectionTemplate=thisSectionTemplate,
+        sectionData=result,
+    )
 
 @route("/ajax/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):

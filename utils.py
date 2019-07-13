@@ -45,3 +45,13 @@ def get_episode(show_id, episode_id):
         if str(episode['id']) == str(episode_id):
             return episode
     return 'episode not found'
+
+def search_episodes(search_value):
+    print("in search_episode, search value: " + search_value)
+    shows = getShows(AVAILABE_SHOWS)
+    results = []
+    for show in shows:
+        for episode in show["_embedded"]["episodes"]:
+            if search_value.lower() in episode['name'].lower():
+                results.append({'showid':show['id'],'episodeid':episode['id'],'text':episode['name']})
+    return results
