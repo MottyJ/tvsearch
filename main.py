@@ -9,7 +9,7 @@ from bottle import (
     static_file,
     template,
     error,
-    response
+    response,
 )
 import utils
 import json
@@ -34,6 +34,7 @@ def img(filepath):
 
 # Dynamic routes
 
+
 @route("/")
 def index():
     print("in index")
@@ -57,6 +58,7 @@ def browse():
         sectionData=utils.getShows(utils.AVAILABE_SHOWS),
     )
 
+
 @route("/search")
 def get_search():
     print("in get_search")
@@ -68,11 +70,13 @@ def get_search():
         sectionData=utils.getShows(utils.AVAILABE_SHOWS),
     )
 
+
 @post("/search")
 def post_search():
     print("in post_search")
     search_value = request.forms.get("q")
     print("in post_search, " + search_value)
+
 
 @route("/show/<showID>")
 def show(showID):
@@ -86,6 +90,7 @@ def show(showID):
         sectionTemplate=thisSectionTemplate,
         sectionData=result,
     )
+
 
 @route("/ajax/show/<showID>")
 def ajax_route(showID):
@@ -101,7 +106,20 @@ def ajax_route(showID):
         sectionData=result,
     )
 
+
 @route("/show/<showID>/episode/<episodeID>")
+def episode(showID, episodeID):
+    print("in episode")
+    thisSectionTemplate = "./templates/episode.tpl"
+    result = utils.get_episode(showID, episodeID)
+    return template(
+        "./pages/index.html",
+        version=utils.getVersion(),
+        sectionTemplate=thisSectionTemplate,
+        sectionData=result,
+    )
+
+@route("/ajax/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
     print("in episode")
     thisSectionTemplate = "./templates/episode.tpl"
