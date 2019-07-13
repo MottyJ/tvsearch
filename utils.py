@@ -36,3 +36,12 @@ def getShows(AVAILABE_SHOWS):
     for show in AVAILABE_SHOWS:
         shows_redefined.append(json.loads(getJsonFromFile(show)))
     return shows_redefined
+
+
+def get_episode(show_id, episode_id):
+    print("in get_episode")
+    show = json.loads(getJsonFromFile(show_id))
+    for episode in show["_embedded"]["episodes"]:
+        if str(episode['id']) == str(episode_id):
+            return episode
+    return 'episode not found'
