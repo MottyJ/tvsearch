@@ -78,18 +78,18 @@ def post_search():
     print("in post_search, " + search_value)
 
 
-@route("/show/<showID>")
-def show(showID):
-    print("in post_search")
-    print("showID: " + showID)
-    thisSectionTemplate = "./templates/show.tpl"
-    result = json.loads(utils.getJsonFromFile(showID))
-    return template(
-        "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
-        sectionData=result,
-    )
+# @route("/show/<showID>")
+# def show(showID):
+#     print("in post_search")
+#     print("showID: " + showID)
+#     thisSectionTemplate = "./templates/show.tpl"
+#     result = json.loads(utils.getJsonFromFile(showID))
+#     return template(
+#         "./pages/index.html",
+#         version=utils.getVersion(),
+#         sectionTemplate=thisSectionTemplate,
+#         sectionData=result,
+#     )
 
 
 @route("/ajax/show/<showID>")
@@ -107,17 +107,17 @@ def ajax_route(showID):
     )
 
 
-@route("/show/<showID>/episode/<episodeID>")
-def episode(showID, episodeID):
-    print("in episode")
-    thisSectionTemplate = "./templates/episode.tpl"
-    result = utils.get_episode(showID, episodeID)
-    return template(
-        "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
-        sectionData=result,
-    )
+# @route("/show/<showID>/episode/<episodeID>")
+# def episode(showID, episodeID):
+#     print("in episode")
+#     thisSectionTemplate = "./templates/episode.tpl"
+#     result = utils.get_episode(showID, episodeID)
+#     return template(
+#         "./pages/index.html",
+#         version=utils.getVersion(),
+#         sectionTemplate=thisSectionTemplate,
+#         sectionData=result,
+#     )
 
 @route("/ajax/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
