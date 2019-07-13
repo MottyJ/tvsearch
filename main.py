@@ -99,9 +99,10 @@ def show(showID):
     try:
         result = json.loads(utils.getJsonFromFile(showID))
     except TypeError as e:
-    # if len(result) == 0:
         print('no search results - ' + str(e.args))
         abort(404,'Show Not Found')
+        return
+
     return template(
         "./pages/index.html",
         version=utils.getVersion(),
@@ -127,9 +128,18 @@ def show(showID):
 @route("/ajax/show/<showID>/episode/<episodeID>")
 @route("/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
-    print("in episode")
+    print("in episode, showID {} episodeID {}".format(showID,episodeID))
     thisSectionTemplate = "./templates/episode.tpl"
-    result = utils.get_episode(showID, episodeID)
+    result = []
+    try:
+        result = utils.get_episode(showID, episodeID)
+    except TypeError as e:
+        print('no search results - ' + str(e.args))
+        abort(404,'Show / episode Not Found')
+        return
+    if 'episode not found' == str(result):
+        abort(404, 'episode Not Found')
+
     return template(
         "./pages/index.html",
         version=utils.getVersion(),
