@@ -32,7 +32,6 @@ def getJsonFromFile(showName):
 
 
 def getShows(AVAILABE_SHOWS):
-    print("in getShows")
     shows_redefined = []
     for show in AVAILABE_SHOWS:
         shows_redefined.append(json.loads(getJsonFromFile(show)))
@@ -43,7 +42,6 @@ def get_show_episodes(show_id):
     return show["_embedded"]["episodes"]
 
 def get_episode(show_id, episode_id):
-    print("in get_episode")
     show = json.loads(getJsonFromFile(show_id))
     for episode in show["_embedded"]["episodes"]:
         if str(episode['id']) == str(episode_id):
@@ -51,7 +49,6 @@ def get_episode(show_id, episode_id):
     return 'episode not found'
 
 def search_episodes(search_value):
-    print("in search_episode, search value: " + search_value)
     shows = getShows(AVAILABE_SHOWS)
     results = []
     for show in shows:

@@ -40,7 +40,6 @@ def img(filepath):
 
 @route("/")
 def index():
-    print("in index")
     thisSectionTemplate = "./templates/home.tpl"
     return template(
         "./pages/index.html",
@@ -52,19 +51,26 @@ def index():
 
 @route("/browse")
 def browse():
-    print("in browse")
     thisSectionTemplate = "./templates/browse.tpl"
+    results=utils.getShows(utils.AVAILABE_SHOWS)
+    try:
+        order = request.query['order']
+        if order.lower() == 'name':
+            results.sort(key=lambda s : s['name'])
+        elif order.lower() == 'ratings':
+            results.sort(key=lambda s : s['rating']['average'])
+    except KeyError:
+        print('error getting order query parameter')
     return template(
         "./pages/index.html",
         version=utils.getVersion(),
         sectionTemplate=thisSectionTemplate,
-        sectionData=utils.getShows(utils.AVAILABE_SHOWS),
+        sectionData=results,
     )
 
 
 @route("/search")
 def get_search():
-    print("in get_search")
     thisSectionTemplate = "./templates/search.tpl"
     return template(
         "./pages/index.html",
@@ -76,9 +82,7 @@ def get_search():
 
 @post("/search")
 def post_search():
-    print("in post_search")
     search_value = request.forms.get("q")
-    print("in post_search, " + search_value)
     results = utils.search_episodes(search_value)
     thisSectionTemplate = "./templates/search_result.tpl"
     return template(
@@ -93,8 +97,6 @@ def post_search():
 
 @route("/show/<showID>")
 def show(showID):
-    print("in show")
-    print("showID: " + showID)
     thisSectionTemplate = "./templates/show.tpl"
     result = []
     try:
@@ -113,8 +115,6 @@ def show(showID):
 
 @route("/ajax/show/<showID>")
 def ajax_route(showID):
-    print("in ajax_route")
-    print("showID: " + showID)
     thisSectionTemplate = "./templates/show.tpl"
     result = json.loads(utils.getJsonFromFile(showID))
     return template(thisSectionTemplate, result=result)
@@ -122,7 +122,6 @@ def ajax_route(showID):
 
 @route("/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
-    print("in episode, showID {} episodeID {}".format(showID, episodeID))
     thisSectionTemplate = "./templates/episode.tpl"
     result = []
     try:
@@ -144,7 +143,6 @@ def episode(showID, episodeID):
 
 @route("/ajax/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
-    print("in episode")
     thisSectionTemplate = "./templates/episode.tpl"
     result = utils.get_episode(showID, episodeID)
     return template(thisSectionTemplate, result=result)
@@ -153,7 +151,6 @@ def episode(showID, episodeID):
 @error(404)
 @error(500)
 def return_error(error):
-    print("in return_error, error: " + str(error))
     thisSectionTemplate = "./templates/404.tpl"
     return template(
         "./pages/index.html",
