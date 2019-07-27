@@ -18,38 +18,38 @@ AVAILABE_SHOWS = [
 ]
 
 
-def getVersion():
+def get_version():
     return "0.0.1"
 
 
-def getJsonFromFile(showName):
+def get_json_from_file(show_name):
     try:
         return template(
-            "{folder}/{filename}.json".format(folder=JSON_FOLDER, filename=showName)
+            "{folder}/{filename}.json".format(folder=JSON_FOLDER, filename=show_name)
         )
     except:
         return {}
 
 
-def getShows(AVAILABE_SHOWS):
+def get_shows(AVAILABE_SHOWS):
     shows_redefined = []
     for show in AVAILABE_SHOWS:
-        shows_redefined.append(json.loads(getJsonFromFile(show)))
+        shows_redefined.append(json.loads(get_json_from_file(show)))
     return shows_redefined
 
 def get_show_episodes(show_id):
-    show = json.loads(getJsonFromFile(show_id))
+    show = json.loads(get_json_from_file(show_id))
     return show["_embedded"]["episodes"]
 
 def get_episode(show_id, episode_id):
-    show = json.loads(getJsonFromFile(show_id))
+    show = json.loads(get_json_from_file(show_id))
     for episode in show["_embedded"]["episodes"]:
         if str(episode['id']) == str(episode_id):
             return episode
     return 'episode not found'
 
 def search_episodes(search_value):
-    shows = getShows(AVAILABE_SHOWS)
+    shows = get_shows(AVAILABE_SHOWS)
     results = []
     for show in shows:
         for episode in show["_embedded"]["episodes"]:

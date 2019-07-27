@@ -40,19 +40,19 @@ def img(filepath):
 
 @route("/")
 def index():
-    thisSectionTemplate = "./templates/home.tpl"
+    this_section_template = "./templates/home.tpl"
     return template(
         "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
+        version=utils.get_version(),
+        sectionTemplate=this_section_template,
         sectionData={},
     )
 
 
 @route("/browse")
 def browse():
-    thisSectionTemplate = "./templates/browse.tpl"
-    results=utils.getShows(utils.AVAILABE_SHOWS)
+    this_section_template = "./templates/browse.tpl"
+    results=utils.get_shows(utils.AVAILABE_SHOWS)
     try:
         order = request.query['order']
         if order.lower() == 'name':
@@ -63,20 +63,20 @@ def browse():
         print('error getting order query parameter')
     return template(
         "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
+        version=utils.get_version(),
+        sectionTemplate=this_section_template,
         sectionData=results,
     )
 
 
 @route("/search")
 def get_search():
-    thisSectionTemplate = "./templates/search.tpl"
+    this_section_template = "./templates/search.tpl"
     return template(
         "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
-        sectionData=utils.getShows(utils.AVAILABE_SHOWS),
+        version=utils.get_version(),
+        sectionTemplate=this_section_template,
+        sectionData=utils.get_shows(utils.AVAILABE_SHOWS),
     )
 
 
@@ -84,11 +84,11 @@ def get_search():
 def post_search():
     search_value = request.forms.get("q")
     results = utils.search_episodes(search_value)
-    thisSectionTemplate = "./templates/search_result.tpl"
+    this_section_template = "./templates/search_result.tpl"
     return template(
         "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
+        version=utils.get_version(),
+        sectionTemplate=this_section_template,
         sectionData=search_value,
         query=search_value,
         results=results
@@ -97,32 +97,32 @@ def post_search():
 
 @route("/show/<showID>")
 def show(showID):
-    thisSectionTemplate = "./templates/show.tpl"
+    this_section_template = "./templates/show.tpl"
     result = []
     try:
-        result = json.loads(utils.getJsonFromFile(showID))
+        result = json.loads(utils.get_json_from_file(showID))
     except TypeError as e:
         print('no search results - ' + str(e.args))
         abort(404, 'Show Not Found')
         return
     return template(
         "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
+        version=utils.get_version(),
+        sectionTemplate=this_section_template,
         sectionData=result,
     )
 
 
 @route("/ajax/show/<showID>")
 def ajax_route(showID):
-    thisSectionTemplate = "./templates/show.tpl"
-    result = json.loads(utils.getJsonFromFile(showID))
-    return template(thisSectionTemplate, result=result)
+    this_section_template = "./templates/show.tpl"
+    result = json.loads(utils.get_json_from_file(showID))
+    return template(this_section_template, result=result)
 
 
 @route("/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
-    thisSectionTemplate = "./templates/episode.tpl"
+    this_section_template = "./templates/episode.tpl"
     result = []
     try:
         result = utils.get_episode(showID, episodeID)
@@ -135,27 +135,27 @@ def episode(showID, episodeID):
 
     return template(
         "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
+        version=utils.get_version(),
+        sectionTemplate=this_section_template,
         sectionData=result,
     )
 
 
 @route("/ajax/show/<showID>/episode/<episodeID>")
 def episode(showID, episodeID):
-    thisSectionTemplate = "./templates/episode.tpl"
+    this_section_template = "./templates/episode.tpl"
     result = utils.get_episode(showID, episodeID)
-    return template(thisSectionTemplate, result=result)
+    return template(this_section_template, result=result)
 
 
 @error(404)
 @error(500)
 def return_error(error):
-    thisSectionTemplate = "./templates/404.tpl"
+    this_section_template = "./templates/404.tpl"
     return template(
         "./pages/index.html",
-        version=utils.getVersion(),
-        sectionTemplate=thisSectionTemplate,
+        version=utils.get_version(),
+        sectionTemplate=this_section_template,
         sectionData={},
     )
 
